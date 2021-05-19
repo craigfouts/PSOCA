@@ -1,22 +1,23 @@
 import pyglet
 from game_of_life import GameOfLife
+from self_organizing_ca import SelfOrganizingCA
 
 
 class Window(pyglet.window.Window):
 
-    def __init__(self, window_width, window_height, *args, **kwargs):
-        super().__init__(window_width, window_height, *args, **kwargs)
-        self.game_of_life = GameOfLife(window_width, window_height, 10, 0.5)
-        pyglet.clock.schedule_interval(self.update, 1.0 / 8.0)
+    def __init__(self, width, height, CellularAutomata, *args, **kwargs):
+        super().__init__(width, height, *args, **kwargs)
+        self.ca = CellularAutomata(width, height, 50, 0.5)
+        pyglet.clock.schedule_interval(self.update, 1.0 / 24.0)
 
     def update(self, dt):
-        self.game_of_life.run_rules()
+        self.ca.run_rules()
 
     def on_draw(self):
         self.clear()
-        self.game_of_life.draw()
+        self.ca.draw()
 
 
 if __name__ == '__main__':
-    window = Window(600, 600)
+    window = Window(600, 600, SelfOrganizingCA)
     pyglet.app.run()
