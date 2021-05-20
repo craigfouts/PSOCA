@@ -19,7 +19,7 @@ class Window(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifier):
         if symbol == pyglet.window.key.SPACE:
-            pyglet.clock.schedule_interval(self.update, 1.0 / 6.0)
+            pyglet.clock.schedule_interval(self.update, 1.0 / 8.0)
         elif symbol == pyglet.window.key.R:
             self.ca = self.rule(0, 0, 50, 0.5)
             pyglet.clock.unschedule(self.update)
