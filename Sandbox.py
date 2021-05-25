@@ -23,7 +23,7 @@ class Window(pyglet.window.Window):
         elif symbol == pyglet.window.key.R:
             self.ca = self.rule(0, 0, 50, 0.5)
             pyglet.clock.unschedule(self.update)
-            
+
 
 if __name__ == '__main__':
     window = Window(600, 600, SelfOrganizingCA)
