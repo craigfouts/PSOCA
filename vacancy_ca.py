@@ -20,12 +20,19 @@ class VacancyCA:
         data = ('v2i', (x1, y1, x1, y2, x2, y1, x2, y2))
         graphics.draw_indexed(4, gl.GL_TRIANGLES, indicies, data)
 
-    def _get_targets(self, initial, goal):
-        targets = []
+    def _get_vacancies(self, initial, goal):
+        vacancies = []
         for index, cell in np.ndenumerate(goal):
             if cell == 1 and initial[index] == 0:
-                targets.append(index)
-        return np.array(targets)
+                vacancies.append(index)
+        return np.array(vacancies)
+
+    def _get_sources(self, initial, goal):
+        sources = []
+        for index, cell in np.ndenumerate(goal):
+            if cell == 0 and initial[index] == 1:
+                sources.append(index)
+        return np.array(sources)
 
     def _get_neighbors(self, cell, collection):
         neighbors = []
@@ -39,6 +46,20 @@ class VacancyCA:
         collection[cell1[0], cell1[1]] = collection[cell2[0], cell2[1]]
         collection[cell2[0], cell2[1]] = temp
         return collection
+
+    def _source_sum(self, cell, sources):
+        sum = 0
+        for source in sources:
+            sum += abs(source[0] - cell[0]) + abs(source[1] - cell[1])
+        return sum
+
+    def _select_neighbor(self, neighbors, state, goal):
+        neighbor = neighbors[0]
+        sources = self._get_sources(state, goal)
+        for neighbor_ in neighbors:
+            if self._source_sum(neighbor_, sources) < self._source_sum(neighbor, sources):
+                neighbor = neighbor_
+        return neighbor
 
     def fit(self, initial, goal):
         state = initial.copy()
@@ -55,11 +76,11 @@ class VacancyCA:
         return None
 
     def update(self):
-        targets = self._get_targets(self.state, self.goal)
+        targets = self._get_vacancies(self.state, self.goal)
         for target in targets:
             neighbors = self._get_neighbors(target, self.state)
             if len(neighbors) > 0:
-                neighbor = neighbors[randrange(len(neighbors))]
+                neighbor = self._select_neighbor(neighbors, self.state, self.goal)
                 self._swap_cell_values(target, neighbor, self.state)
 
     def draw(self):

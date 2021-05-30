@@ -14,7 +14,7 @@ class MainWindow(Window):
         self.initial = initial
         self.goal = goal
         self.cell_size = cell_size
-        self.ca = self.rule(self.initial, self.goal, self.cell_size)
+        self.ca = self.rule(self.initial, self.cell_size)
         self.key_map = {
             32: lambda d: self._handle_space_key(d),
             114: lambda d: self._handle_r_key(d)
@@ -24,7 +24,7 @@ class MainWindow(Window):
         clock.schedule_interval(self.update, dt)
 
     def _handle_r_key(self, _):
-        self.ca = self.rule(self.cell_map.copy(), self.cell_size)
+        self.ca = self.rule(self.initial.copy(), self.cell_size)
         clock.unschedule(self.update)
 
     def update(self, _):

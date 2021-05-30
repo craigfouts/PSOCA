@@ -1,5 +1,6 @@
 import numpy as np
-from vacancy_ca import VacancyCA
+# from vacancy_ca import VacancyCA
+from vacancy_ca_temp import VacancyCA
 from pyglet import app, clock
 from pyglet.window import Window
 
@@ -19,7 +20,7 @@ class MainWindow(Window):
         self.key_map = {
             32: lambda d: self._handle_space_key(d),
             114: lambda d: self._handle_r_key(d)
-        }
+        } 
 
     def _handle_space_key(self, dt):
         clock.schedule_interval(self.update, dt)
@@ -37,7 +38,7 @@ class MainWindow(Window):
 
     def on_key_press(self, symbol, modifiers):
         try:
-            self.key_map[symbol](1.0 / 24.0)
+            self.key_map[symbol](1.0 / 4.0)
         except:
             pass
 
