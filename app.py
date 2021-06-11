@@ -15,7 +15,7 @@ class MainWindow(Window):
         self.goal = goal
         self.model = model
         self.cell_size = cell_size
-        self.ca = model(initial, goal, cell_size)
+        self.ca = model(initial, goal, cell_size, self.window_width, self.window_height)
         self.key_map = {
             key.SPACE: lambda x: self._handle_space_key(x),
             key.R: lambda x: self._handle_r_key(x)
