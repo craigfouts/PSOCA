@@ -32,13 +32,13 @@ class VacancyCA:
         self.sources = np.array(sources)
 
     def _in_grid(self, value):
-        return 0 <= value and value < self.window_width
+        return 0 <= value and value < self.state.shape[1]
 
     def _get_neighbors(self, cell):
         neighbors = []
         for shift in zip([0, 1, 0, -1], [1, 0, -1, 0]):
             row, col = cell[0] + shift[0], cell[1] + shift[1]
-            if self._in_grid(row) and self._in_grid(col):
+            if self._in_grid(row) and self._in_grid(col) and self.state[row, col] == 1:
                 neighbors.append([row, col])
         print(neighbors)
         return np.array(neighbors) if len(neighbors) > 0 else None
@@ -62,6 +62,7 @@ class VacancyCA:
         print('Replacement:', replacement)
         self.state[vacancy[0], vacancy[1]] = 1
         self.state[replacement[0], replacement[1]] = 0
+        print(self.state)
         vacancies = self.vacancies.tolist()
         vacancies.remove(vacancy.tolist())
         vacancies.append(replacement.tolist())

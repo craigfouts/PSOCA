@@ -1,32 +1,31 @@
 import numpy as np
-# from vacancy_ca import VacancyCA
-from vacancy_ca_temp import VacancyCA
 from pyglet import app, clock
-from pyglet.window import Window
+from pyglet.window import key, Window
+from vacancy_ca import VacancyCA
 
 
 class MainWindow(Window):
 
-    def __init__(self, rule, initial, goal, cell_size=10):
+    def __init__(self, model, initial, goal, cell_size=10):
         self.window_width = initial.shape[0] * cell_size
         self.window_height = initial.shape[1] * cell_size
         super().__init__(self.window_width, self.window_height)
 
-        self.rule = rule
         self.initial = initial
         self.goal = goal
+        self.model = model
         self.cell_size = cell_size
-        self.ca = self.rule(self.initial, self.goal, self.cell_size)
+        self.ca = model(initial, goal, cell_size)
         self.key_map = {
-            32: lambda d: self._handle_space_key(d),
-            114: lambda d: self._handle_r_key(d)
-        } 
+            key.SPACE: lambda x: self._handle_space_key(x),
+            key.R: lambda x: self._handle_r_key(x)
+        }
 
     def _handle_space_key(self, dt):
         clock.schedule_interval(self.update, dt)
 
     def _handle_r_key(self, _):
-        self.ca = self.rule(self.initial, self.goal, self.cell_size)
+        self.ca = self.model(self.initial, self.goal, self.cell_size)
         clock.unschedule(self.update)
 
     def update(self, _):
@@ -36,37 +35,37 @@ class MainWindow(Window):
         self.clear()
         self.ca.draw()
 
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(self, symbol, _):
         try:
-            self.key_map[symbol](1.0 / 4.0)
+            self.key_map[symbol](1.0 / 2.0)
         except:
             pass
 
-    
+
 if __name__ == '__main__':
-    initial = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    goal = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-                     [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    window = MainWindow(VacancyCA, initial.copy(), goal.copy(), 50)
-    app.run()
+        initial = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+        goal = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+                         [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+        window = MainWindow(VacancyCA, initial, goal, 50)
+        app.run()
