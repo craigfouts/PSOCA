@@ -76,11 +76,12 @@ class VacancyCA:
         return np.array(neighbors) if len(neighbors) > 0 else None
 
     def _get_options(self, index, taken):
-        options = []
+        options = [[], []]
         for shift in zip([0, -1, 0, 1], [-1, 0, 1, 0]):
             row, col = index[0] + shift[0], index[1] + shift[1]
             if self._in_grid(row, col) and self.state[row, col] == 1 and [row, col] not in taken:
-                options.append([row, col])
+                options[0].append([row, col])
+                options[1].append(np.sum(np.abs()))  # FIXME
         return np.array(options) if len(options) > 0 else None
 
     def _in_grid(self, row, col):
