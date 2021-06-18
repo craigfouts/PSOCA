@@ -76,12 +76,17 @@ class VacancyCA:
         return np.array(neighbors) if len(neighbors) > 0 else None
 
     def _get_options(self, index, taken):
-        options = [[], []]
+        options = []
         for shift in zip([0, -1, 0, 1], [-1, 0, 1, 0]):
             row, col = index[0] + shift[0], index[1] + shift[1]
             if self._in_grid(row, col) and self.state[row, col] == 1 and [row, col] not in taken:
-                options[0].append([row, col])
-                options[1].append(np.sum(np.abs()))  # FIXME
+                options.append([row, col])
+                # options[1].append(np.sum(np.abs()))  # FIXME
+        # if len(options) == 0:
+        #     for shift in zip([0, -1, 0, 1], [-1, 0, 1, 0]):
+        #         row, col = index[0] + shift[0], index[1] + shift[1]
+        #         if [row, col] not in taken:
+        #             options.append([row, col])
         return np.array(options) if len(options) > 0 else None
 
     def _in_grid(self, row, col):
@@ -115,6 +120,7 @@ class VacancyCA:
         graphics.draw_indexed(4, gl.GL_TRIANGLES, indicies, data)
 
     def update(self):
+
         temp = self.state.copy()
         taken = []
         for vacancy in np.flip(self.vacancies, axis=0):
@@ -122,8 +128,8 @@ class VacancyCA:
             if options is not None and not self._at_target(vacancy[0], vacancy[1]):
                 best_option = self._get_best_option(vacancy[0], options, vacancy[1])
                 if best_option is not None:
-                    temp[vacancy[0][0], vacancy[0][1]] = 1
-                    temp[best_option[0], best_option[1]] = 0
+                    temp[vacancy[0][0], vacancy[0][1]] = self.state[best_option[0], best_option[1]]
+                    temp[best_option[0], best_option[1]] = self.state[vacancy[0][0], vacancy[0][1]]
                     vacancy[0] = best_option
                     taken.append([best_option[0], best_option[1]])
         self.state = temp
