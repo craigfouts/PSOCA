@@ -25,7 +25,8 @@ class MainWindow(Window):
             key._1: lambda: self._handle_1_key(),
             key._2: lambda: self._handle_2_key(),
             key._3: lambda: self._handle_3_key(),
-            key._4: lambda: self._handle_4_key()
+            key._4: lambda: self._handle_4_key(),
+            key._5: lambda: self._handle_5_key()
         }
         clock.schedule_interval(self.update, frame_rate)
 
@@ -48,6 +49,11 @@ class MainWindow(Window):
         self.ca = self.model(
             self.shapes[self.current], self.shapes[3], *self.parameters)
         self.current = 3
+    
+    def _handle_5_key(self):
+        self.ca = self.model(
+            self.shapes[self.current], self.shapes[4], *self.parameters)
+        self.current = 4
 
     def update(self, _):
         self.ca.update()
@@ -124,5 +130,20 @@ if __name__ == '__main__':
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    window = MainWindow(VacancyCA, [one, two, three, four], 1.0 / 8.0, 50)
+    five = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    window = MainWindow(VacancyCA, [one, two, three, four, five], 1.0 / 8.0, 50)
     app.run()

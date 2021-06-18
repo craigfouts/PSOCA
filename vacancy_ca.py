@@ -120,7 +120,6 @@ class VacancyCA:
         graphics.draw_indexed(4, gl.GL_TRIANGLES, indicies, data)
 
     def update(self):
-
         temp = self.state.copy()
         taken = []
         for vacancy in np.flip(self.vacancies, axis=0):
