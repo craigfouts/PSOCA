@@ -143,8 +143,28 @@ class TargetsCA:
                 temp_paths[(path[0][0], path[0][1])] = self.paths[cell][1:]
             else:
                 temp_paths[cell] = path
-        self.paths = temp_paths
-        self.state = temp.copy()
+        if self.paths == temp_paths:
+            self.sources = self._sources(temp)
+            self.statics = self._statics(temp, self.goal)
+            self.vacancies = self._vacancies(temp, self.goal)
+            self.mappings = self._map_targets(temp, self.goal, self.sources, self.vacancies)
+            self.paths = self._paths(self.mappings)
+            temp = {}
+            for key, value in self.mappings.items():
+                temp[(value[0], value[1])] = key
+            self.mappings = temp
+            temp = {}
+            for key, value in self.paths.items():
+                new_path = value[:-1].tolist()
+                new_path.reverse()
+                temp[(value[-1][0], value[-1][1])] = new_path + [list(key)]
+            self.paths = temp
+            print('\ntest')
+        else:
+            self.paths = temp_paths
+            self.state = temp.copy()
+            print('\ntest2')
+        print(f'{self.paths}')
 
     def draw(self):
         for index, cell in np.ndenumerate(self.state):
