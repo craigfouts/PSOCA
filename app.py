@@ -1,8 +1,8 @@
 import numpy as np
-import sys
 from pyglet import app, clock
 from pyglet.window import key, Window
 from vacancy_ca import VacancyCA
+from targets_ca import TargetsCA
 
 
 class MainWindow(Window):
@@ -27,6 +27,7 @@ class MainWindow(Window):
             key._3: lambda: self._handle_3_key(),
             key._4: lambda: self._handle_4_key()
         }
+        print(self.key_map)
         clock.schedule_interval(self.update, frame_rate)
 
     def _handle_1_key(self):
@@ -60,6 +61,8 @@ class MainWindow(Window):
         try:
             self.key_map[symbol]()
         except:
+            if symbol == 50:
+                self._handle_2_key()
             print(symbol)
 
 
@@ -124,5 +127,6 @@ if __name__ == '__main__':
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    window = MainWindow(VacancyCA, [one, two, three, four], 1.0 / 8.0, 50)
+    # window = MainWindow(VacancyCA, [one, two, three, four], 1.0 / 8.0, 50)
+    window = MainWindow(TargetsCA, [one, two, three, four], 1.0 / 8.0, 50)
     app.run()
