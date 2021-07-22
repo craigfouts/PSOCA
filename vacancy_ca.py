@@ -120,7 +120,6 @@ class VacancyCA:
         graphics.draw_indexed(4, gl.GL_TRIANGLES, indicies, data)
 
     def update(self):
-
         temp = self.state.copy()
         taken = []
         for vacancy in np.flip(self.vacancies, axis=0):
@@ -132,7 +131,11 @@ class VacancyCA:
                     temp[best_option[0], best_option[1]] = self.state[vacancy[0][0], vacancy[0][1]]
                     vacancy[0] = best_option
                     taken.append([best_option[0], best_option[1]])
-        self.state = temp
+        if (self.state == temp).all():
+            return True
+        else:
+            self.state = temp
+            return False
 
     def draw(self):
         for index, cell in np.ndenumerate(self.state):
