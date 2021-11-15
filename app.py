@@ -127,6 +127,6 @@ if __name__ == '__main__':
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    # window = MainWindow(VacancyCA, [one, two, three, four], 1.0 / 8.0, 50)
-    window = MainWindow(TargetsCA, [one, two, three, four], 1.0 / 8.0, 50)
+    window = MainWindow(VacancyCA, [one, two, three, four], 1.0 / 8.0, 50)
+    # window = MainWindow(TargetsCA, [one, two, three, four], 1.0 / 8.0, 50)
     app.run()
